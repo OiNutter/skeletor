@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "skeletor"
   gem.homepage = "http://github.com/OiNutter/skeletor"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Creates a project skeleton from a code template}
+  gem.description = %Q{Helps setting up projects using code templates}
   gem.email = "willmckenzie@oinutter.co.uk"
   gem.authors = ["OiNutter"]
   # dependencies defined in Gemfile
