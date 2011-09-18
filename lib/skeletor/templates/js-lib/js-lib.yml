@@ -1,0 +1,6 @@
+directory_structure:
+ src:
+ lib:
+ test:
+   functional:
+   unit:
