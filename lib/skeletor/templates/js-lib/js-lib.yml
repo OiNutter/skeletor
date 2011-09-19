@@ -1,6 +1,14 @@
 directory_structure:
- src:
- lib:
- test:
-   functional:
-   unit:
+  -
+    src:
+    lib:
+    test:
+      -
+        functional:
+          -
+            - foo
+            
+        unit:
+  -
+    - README.md
+    - LICENSE

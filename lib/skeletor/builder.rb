@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Skeletor
   
   class Builder
@@ -13,31 +15,57 @@ module Skeletor
     def build()
       
       #build directory structure
-      build_directories(@template.directory_structure)
+      build_skeleton(@template.directory_structure)
       
     end
     
-    def build_directories(dirs,path=@path)
+    def build_skeleton(dirs,path=@path)
+        
+        dirs.each{
+          |node|
+          
+          if node.kind_of?(Hash) && !node.empty?()
+            node.each_pair{
+              |dir,content| 
+          
+              Dir.mkdir(File.join(path,dir))
+        
+              if content.kind_of?(Array) && !content.empty?()
+                build_skeleton(content,File.join(path,dir))
+              end
+              
+            }
+          elsif node.kind_of?(Array) && !node.empty?()
+            node.each{
+              |file|
+              
+              write_file(file,path)
+        
+            }
+          end
+          
+      }
       
-      dirs.each_pair{
+    end
+    
+    def clean(path=@path)
+      
+      start_dir = Dir.new(path)
+      
+      start_dir.each{
+        |dir|
         
-        |dir,content|
-        
-        Dir.mkdir(File.join(path,dir))
-        
-        if content.kind_of?(Hash) && !content.empty?()
-          
-          build_directories(content,File.join(path,dir))
-          
+        if dir != '.' && dir != '..'
+          FileUtils.rm_r File.join(path,dir), {:secure=>true}  
         end
         
       }
       
     end
     
-    def clean_directory(path)
+    def write_file(file,path)
       
-      
+      File.open(File.join(path,file),'w')
       
     end
     
