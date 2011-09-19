@@ -15,6 +15,7 @@ module Skeletor
           @includes = @template["includes"] || {}
         rescue LoadError => e
           puts e.message
+          exit
         end
           
       end
@@ -37,8 +38,7 @@ module Skeletor
       
       TEMPLATE_PATH = File.expand_path(File.join(File.dirname(__FILE__), "templates"))
       USER_TEMPLATE_PATH = File.expand_path('~/.skeletor/templates')
-      
-      
+       
       def self.loadTemplate(template)
         
         if File.exists?(template) && !File.is_directory?(template)
