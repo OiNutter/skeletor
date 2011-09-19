@@ -14,6 +14,11 @@ module Skeletor
     
     def build()
       
+      #check dir exists, if not, make it
+      if(!File.exists?(@path))
+        Dir.mkdir(@path)
+      end
+      
       #build directory structure
       build_skeleton(@template.directory_structure)
       
@@ -48,7 +53,7 @@ module Skeletor
       
     end
     
-    def clean(path=@path)
+    def self.clean(path=@path)
       
       start_dir = Dir.new(path)
       
