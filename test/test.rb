@@ -13,5 +13,6 @@ skeleton = Skeletor::Builder.new('test_project','js-lib',path)
 #  
 #  puts dir
 #}
-
+skeleton.clean()
 skeleton.build()
+

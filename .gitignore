@@ -49,3 +49,5 @@ pkg
 
 # For eclipse/aptana
 .project
+
+/test/test_project/*
