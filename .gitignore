@@ -51,3 +51,4 @@ pkg
 .project
 
 /test/test_project/*
+*.gem
