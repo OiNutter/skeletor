@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "skeletor"
+require "optparse"
+
+Skeletor::CLI.start
