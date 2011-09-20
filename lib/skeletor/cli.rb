@@ -4,7 +4,7 @@ module Skeletor
   
   class CLI < Thor
     
-    desc "build TEMPLATE", "Build project skeleton from TEMPLATE"
+    desc "build TEMPLATE [options]", "Build project skeleton from TEMPLATE"
     method_option :directory,             
                   :aliases => "-d",
                   :desc => "Sets the target directory. Defaults to current directory."
@@ -19,7 +19,7 @@ module Skeletor
       skeleton.build
     end
 
-    desc "clean" ,"clean directory"
+    desc "clean [options]" ,"clean directory"
     method_option :directory,
                   :aliases => "-d",
                   :desc => "Sets the target directory. Defaults to current directory"
