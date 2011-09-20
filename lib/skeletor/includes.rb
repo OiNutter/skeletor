@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'uri'
 
 autoload :HTTP, 'skeletor/protocols/http'
@@ -8,17 +7,18 @@ module Skeletor
   
   class Includes
     
-    PROTOCOL_PATTERN = /^\w+(?=:\/\/)/
+    PROTOCOL_PATTERN = /(?:([a-z][\w-]+):(?:\/{1,3}|[a-z0-9%]))/
     SUPPORTED_PROTOCOLS = ['http','https']
     
     def self.copy_include(include,target,path)
       
       #if include path includes a protocol. Load from that
-      protocol = PROTOCOL_PATTERN.match(include).to_s().downcase 
-      if protocol != nil
-        if SUPPORTED_PROTOCOLS.find_index(protocol) != nil
+      matches = PROTOCOL_PATTERN.match(include).to_a
+      if !matches.empty?
+        protocol = matches[1].to_s.downcase
+        if !SUPPORTED_PROTOCOLS.find_index(protocol).nil?
           case protocol
-          when 'http'
+            when 'http'
               content = HTTP.get URI.parse(include)
             when 'https'
               uri = URI.parse(include)
@@ -28,11 +28,16 @@ module Skeletor
               request = http.request(req)
               content = request.body
             else
-              raise TypeError, 'Unsupported protocol for remote file. Only the following are supported: ' + SUPPORTED_PROTOCOLS.join(', ') 
+              raise TypeError, 'Unsupported protocol ' + protocol + ' for remote file. Only the following are supported: ' + SUPPORTED_PROTOCOLS.join(', ') 
            end
+           puts 'Copying remote file ' + include + ' to ' + target
+        else
+          raise TypeError, 'Unsupported protocol for remote file. Only the following are supported: ' + SUPPORTED_PROTOCOLS.join(', ') 
         end
       else
-        content = File.open File.join(path,include)
+        puts 'Copying ' + include +  ' from template directory to ' + target
+        file = File.open(File.join(path,include))
+        content = file.gets 
       end
       
       File.open(target,'w'){|f| f.write(content)}

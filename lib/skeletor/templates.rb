@@ -10,7 +10,7 @@ module Skeletor
         
         begin
           @template = Loader.loadTemplate(template)
-          @directory_structure = @template["directory_structure"] || {}
+          @directory_structure = @template["directory_structure"] || []
           @tasks = @template["tasks"] || {}
           @includes = @template["includes"] || {}
           @path = @template["path"]
@@ -46,6 +46,8 @@ module Skeletor
        
       def self.loadTemplate(template)
         
+        puts 'Loading Template - ' + template
+        
         if File.exists?(template) && !File.directory?(template)
           skeleton = YAML.load_file(template)
           path = File.dirname(template)
@@ -61,6 +63,8 @@ module Skeletor
         else
           raise LoadError, 'Template File Could Not Be Found'
         end
+        
+        puts 'Template ' + File.basename(template) + '.yml loaded from ' + path
         
         skeleton['path'] = path
         

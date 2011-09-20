@@ -20,7 +20,10 @@ module Skeletor
       end
       
       #build directory structure
+      puts 'Building directory structure'
       build_skeleton(@template.directory_structure)
+      
+      puts 'Skeleton built'
       
     end
     
@@ -33,6 +36,7 @@ module Skeletor
             node.each_pair{
               |dir,content| 
           
+              puts 'Creating directory ' + File.join(path,dir)
               Dir.mkdir(File.join(path,dir))
         
               if content.kind_of?(Array) && !content.empty?()
@@ -55,6 +59,7 @@ module Skeletor
     
     def self.clean(path=@path)
       
+      puts 'Cleaning directory of files and folders'
       start_dir = Dir.new(path)
       
       start_dir.each{
@@ -65,6 +70,7 @@ module Skeletor
         end
         
       }
+      puts 'Directory cleaned'
       
     end
     
@@ -72,8 +78,14 @@ module Skeletor
       
       #if a pre-existing file is specified in the includes list, copy that, if not write a blank file      
       if @template.includes.has_key?(file)
-        Includes.copy_include(@template.includes[file],File.join(path,file),@template.path)
+        begin
+          Includes.copy_include(@template.includes[file],File.join(path,file),@template.path)
+        rescue TypeError => e
+          puts e.message
+          exit
+        end
       else
+        puts 'Creating blank file: ' + File.join(path,file)
         File.open(File.join(path,file),'w')
       end
       
