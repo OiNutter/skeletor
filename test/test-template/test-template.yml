@@ -1,0 +1,12 @@
+directory_structure:
+  -
+    lib:
+      - 
+        - prototype.js
+    src:
+  -
+    - README.md
+    - LICENSE
+includes:
+  prototype.js: includes/prototype.1.7.0.js
+  LICENSE: includes/LICENSE
