@@ -70,7 +70,12 @@ module Skeletor
     
     def write_file(file,path)
       
-      File.open(File.join(path,file),'w')
+      #if a pre-existing file is specified in the includes list, copy that, if not write a blank file      
+      if @template.includes.has_key?(file)
+        Includes.copy_include(@template.includes[file],File.join(path,file),@template.path)
+      else
+        File.open(File.join(path,file),'w')
+      end
       
     end
     
