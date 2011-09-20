@@ -13,6 +13,7 @@ module Skeletor
           @directory_structure = @template["directory_structure"] || {}
           @tasks = @template["tasks"] || {}
           @includes = @template["includes"] || {}
+          @path = @template["path"]
         rescue LoadError => e
           puts e.message
           exit
@@ -32,6 +33,10 @@ module Skeletor
         @includes
       end
       
+      def path
+        @path
+      end
+      
     end
     
     class Loader
@@ -41,17 +46,25 @@ module Skeletor
        
       def self.loadTemplate(template)
         
-        if File.exists?(template) && !File.is_directory?(template)
+        if File.exists?(template) && !File.directory?(template)
           skeleton = YAML.load_file(template)
-        elsif File.exists?(File.join(template,template + '.yml'))
-          skeleton = YAML.load_file(File.join(template,template + '.yml'))
+          path = File.dirname(template)
+        elsif File.exists?(File.join(template,File.basename(template) + '.yml'))
+          skeleton = YAML.load_file(File.join(template,File.basename(template) + '.yml'))
+          path = template
         elsif File.exists?(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
           skeleton = YAML.load_file(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
+          path = File.join(USER_TEMPLATE_PATH,template)
         elsif File.exists?(File.join(TEMPLATE_PATH,template,template+'.yml'))
           skeleton = YAML.load_file(File.join(TEMPLATE_PATH,template,template+'.yml'))
+          path = File.join(TEMPLATE_PATH,template)
         else
           raise LoadError, 'Template File Could Not Be Found'
         end
+        
+        skeleton['path'] = path
+        
+        return skeleton
         
       end
       
