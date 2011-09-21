@@ -10,3 +10,5 @@ directory_structure:
 includes:
   prototype.js: https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js
   LICENSE: includes/LICENSE
+tasks:
+  - git_init, <skeleton_path>
