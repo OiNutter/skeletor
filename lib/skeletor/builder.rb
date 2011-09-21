@@ -7,6 +7,7 @@ module Skeletor
     def initialize(project,template,path)
       
       @project = project
+      @template_name = File.basename(template).gsub('.yml','')
       @template = Templates::Skeleton.new(template)
       @path = path
       
@@ -22,6 +23,10 @@ module Skeletor
       #build directory structure
       puts 'Building directory structure'
       build_skeleton(@template.directory_structure)
+      
+      #execute build tasks
+      puts 'Running build tasks'
+      execute_tasks(@template.tasks,@template.path)
       
       puts 'Skeleton built'
       
@@ -89,6 +94,36 @@ module Skeletor
         File.open(File.join(path,file),'w')
       end
       
+    end
+    
+    def execute_tasks(tasks,template_path)
+      
+      if File.exists?(File.expand_path(File.join(template_path,'tasks.rb')))
+        load File.expand_path(File.join(template_path,'tasks.rb'))
+      end
+       
+      tasks.each{
+        |task|
+        
+        puts 'Running Task: ' + task
+        
+        task = task.gsub('<skeleton_path>',@path)
+        task = task.gsub('<skeleton_project>',@project)
+        task = task.gsub('<skelton_template>',@template_name)
+        
+        options = task.split(', ')
+        action = options.slice!(0)
+        
+        if(Tasks.respond_to?(action))
+          Tasks.send action, options.join(', ')
+        else
+          send action, options.join(', ')
+        end
+        
+      }
+      
+     
+            
     end
     
   end
