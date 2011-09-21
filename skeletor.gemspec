@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.email = ["will@oinutter.co.uk"]
   s.homepage = "http://github.com/OiNutter/skeletor"
   s.rubyforge_project = "skeletor"
+  s.licenses["MIT"]
   
   s.add_dependency "thor"
 end
