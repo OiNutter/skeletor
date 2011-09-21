@@ -8,7 +8,7 @@ module Skeletor
       
       @project = project
       @template_name = File.basename(template).gsub('.yml','')
-      @template = Templates::Skeleton.new(template)
+      @template = Skeletons::Skeleton.new(template)
       @path = path
       
     end
@@ -121,9 +121,7 @@ module Skeletor
         end
         
       }
-      
-     
-            
+                  
     end
     
   end

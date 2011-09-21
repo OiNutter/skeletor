@@ -1,47 +1,10 @@
-require 'YAML'
-
 module Skeletor
   
-  module Templates
-    
-    class Skeleton
-      
-      def initialize(template)
-        
-        begin
-          @template = Loader.loadTemplate(template)
-          @directory_structure = @template["directory_structure"] || []
-          @tasks = @template["tasks"] || {}
-          @includes = @template["includes"] || {}
-          @path = @template["path"]
-        rescue LoadError => e
-          puts e.message
-          exit
-        end
-          
-      end
-      
-      def directory_structure
-        @directory_structure
-      end
-      
-      def tasks
-        @tasks
-      end
-      
-      def includes
-        @includes
-      end
-      
-      def path
-        @path
-      end
-      
-    end
-    
+  module Skeletons
+
     class Loader
       
-      TEMPLATE_PATH = File.expand_path(File.join(File.dirname(__FILE__), "templates"))
+      TEMPLATE_PATH = File.expand_path(File.join(File.dirname(File.dirname(__FILE__)), "templates"))
       USER_TEMPLATE_PATH = File.expand_path('~/.skeletor/templates')
        
       def self.loadTemplate(template)

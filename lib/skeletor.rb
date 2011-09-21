@@ -1,7 +1,7 @@
 require 'skeletor/version'
 
 module Skeletor
-  autoload :Templates, 'skeletor/templates'
+  autoload :Skeletons, 'skeletor/skeletons'
   autoload :Tasks, 'skeletor/tasks'
   autoload :Builder, 'skeletor/builder'
   autoload :Includes, 'skeletor/includes'
