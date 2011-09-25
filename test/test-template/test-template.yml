@@ -3,7 +3,7 @@ directory_structure:
     lib:
       - 
         - prototype.js
-    src:
+    src: 
   -
     - README.md
     - LICENSE
