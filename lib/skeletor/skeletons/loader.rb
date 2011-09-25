@@ -1,3 +1,5 @@
+require 'YAML'
+
 module Skeletor
   
   module Skeletons
@@ -24,12 +26,15 @@ module Skeletor
           skeleton = YAML.load_file(File.join(TEMPLATE_PATH,template,template+'.yml'))
           path = File.join(TEMPLATE_PATH,template)
         else
-          raise LoadError, 'Template File Could Not Be Found'
+          raise LoadError, 'Error: Template File ' + File.basename(template) + ' Could Not Be Found'
         end
         
         puts 'Template ' + File.basename(template) + '.yml loaded from ' + path
-        
-        skeleton['path'] = path
+        if skeleton
+          skeleton['path'] = path
+        else
+          raise LoadError, 'Error: Template could not be parsed as vald YAML'
+        end
         
         return skeleton
         

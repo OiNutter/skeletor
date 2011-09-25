@@ -8,10 +8,15 @@ module Skeletor
         
         begin
           @template = Loader.loadTemplate(template)
-          @directory_structure = @template["directory_structure"] || []
-          @tasks = @template["tasks"] || {}
-          @includes = @template["includes"] || {}
-          @path = @template["path"]
+          validator = Validator.new(@template)
+          if validator.validate
+            @directory_structure = @template["directory_structure"] || []
+            @tasks = @template["tasks"] || {}
+            @includes = @template["includes"] || {}
+            @path = @template["path"]
+          else
+            exit
+          end
         rescue LoadError => e
           puts e.message
           exit
@@ -33,7 +38,7 @@ module Skeletor
       
       def path
         @path
-      end
+      end   
       
     end
     
