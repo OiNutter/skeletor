@@ -19,13 +19,20 @@ module Skeletor
       skeleton.build
     end
 
-    desc "clean [options]" ,"clean directory"
+    desc "clean [options]" ,"Clean directory"
     method_option :directory,
                   :aliases => "-d",
                   :desc => "Sets the target directory. Defaults to current directory"
     def clean
       path = options[:directory] || Dir.pwd   
       Builder.clean path
+    end
+    
+    desc "validate TEMPLATE" ,"Checks TEMPLATE is a valid YAML file and matches the required schema."    
+    def validate(template)
+      skeleton = Skeletons::Loader.loadTemplate(template)
+      validator = Skeletons::Validator.new(skeleton)
+      validator.validate()
     end
     
   end
