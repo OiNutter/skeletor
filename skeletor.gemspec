@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name = "skeletor"
   s.version = Skeletor::VERSION
   s.summary = "Gem for creating project skeletons based on YAML templates"
-  s.description = "Skeletor is a Ruby Gem for creating skeleton directory structures based on a YAML template."
+  s.description = "Skeletor is a command line gem for creating project skeletons based on a YAML template. It will create files and folders, including pulling in specified includes, and run tasks to set up your project."
 
   s.files = Dir["README.md", "LICENSE", "lib/**/*.rb","bin/**/*","lib/skeletor/templates/**/*"]
   s.executables = ["skeletor"]
