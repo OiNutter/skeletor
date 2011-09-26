@@ -129,7 +129,7 @@ validate action to check your template and the build action will also validate t
 This is a mapping of filenames to include locations.  The include locations can be anywhere on disk or a remote location accessible through either HTTP or HTTPS. Generally I would recommend
 storing these in subfolders in your template directory.
 
-####tasks####	
+####tasks####
 
 This denotes a list of tasks to run once the skeleton is set up. They are a string in the following format:
 
