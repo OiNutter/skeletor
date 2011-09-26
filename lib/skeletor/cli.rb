@@ -24,8 +24,15 @@ module Skeletor
                   :aliases => "-d",
                   :desc => "Sets the target directory. Defaults to current directory"
     def clean
-      path = options[:directory] || Dir.pwd   
-      Builder.clean path
+      print 'Are you sure you want to clean this project directory? (Y|n): '
+      confirm = gets.chomp
+      if confirm != 'Y' && confirm != 'n'
+        puts 'Please enter Y or n'
+      elsif confirm == 'Y'
+        path = options[:directory] || Dir.pwd
+        Builder.clean path
+      end
+      
     end
     
     desc "validate TEMPLATE" ,"Checks TEMPLATE is a valid YAML file and matches the required schema."    
