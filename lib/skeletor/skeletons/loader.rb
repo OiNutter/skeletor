@@ -3,12 +3,20 @@ require 'YAML'
 module Skeletor
   
   module Skeletons
-
+    # *Loader* is a wrapper class to handle loading in the template file 
+    # from the various possible load paths.
+    #
+    # While accessible externally this is generally called internally.
     class Loader
       
+      # *TEMPLATE_PATH* specifies the internal directory for any included project templates.
       TEMPLATE_PATH = File.expand_path(File.join(File.dirname(File.dirname(__FILE__)), "templates"))
+      # *USER_TEMPLATE_PATH* specifies the path to the users personal template directory
       USER_TEMPLATE_PATH = File.expand_path('~/.skeletor/templates')
-       
+      
+      # Searches for the specified template and loads it into a variable
+      #
+      # Also adds the path where it was found to the returned Hash
       def self.loadTemplate(template)
         
         puts 'Loading Template - ' + template

@@ -2,10 +2,15 @@ module Skeletor
   
   module Skeletons
     
+    # *Validator* handles validation of the loaded project template files against 
+    # the required schema
+    
     class Validator
       
+      # Defines the location to the required schema file for the templates
       SCHEMA_FILE = File.join Skeletons::Loader::TEMPLATE_PATH,'template-schema.yml'
       
+      # Creates a new *Validator* instance
       def initialize(template,schema=SCHEMA_FILE)
         @errors = []
         @template = template
@@ -13,7 +18,8 @@ module Skeletor
         @types = @schema['types'] || {}
       end
       
-       def validate()
+      # Validates the template against the schema
+      def validate()
         failed = []
         
         @schema['sections'].each{
@@ -48,7 +54,11 @@ module Skeletor
         end
         
       end
-
+      
+      # Checks template node matches the schema.
+      #
+      # Checks type of node against expected type and 
+      # checks any children are of the accepted types.
       def match_node(node,expected,label)
         
         #check type    
@@ -149,6 +159,11 @@ module Skeletor
                 
       end
       
+      # Checks that the node is of the correct type
+      #
+      # If the expected node is a custom node type as defined in the schema
+      # It will run `match_node` to check that the node schema matches the 
+      # custom type.
       def check_type(node,expected_type,label,accept_nil = false)
         
         valid_type = true;

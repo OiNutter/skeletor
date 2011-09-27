@@ -1,3 +1,3 @@
-#require 'always_verify_ssl_certificates'
 require 'net/https'
+# loads HTTP module into constant
 HTTPS = Net::HTTP

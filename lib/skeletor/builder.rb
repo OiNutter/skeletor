@@ -2,8 +2,11 @@ require 'fileutils'
 
 module Skeletor
   
+  # The *Builder* class performs the main task of parsing the 
+  # loaded *Skeleton* and generating a project structure from it.
   class Builder
     
+    # Creates a new *Builder* instance
     def initialize(project,template,path)
       
       @project = project
@@ -13,6 +16,13 @@ module Skeletor
       
     end
     
+    # Builds the project skeleton
+    #
+    # If the target directory does not exist it is created, then the 
+    # directory structure is generated.
+    #
+    # Once the folder structure is set up and all includes have been 
+    # loaded/created, any tasks specified in the template file are run.    
     def build()
       
       #check dir exists, if not, make it
@@ -32,6 +42,7 @@ module Skeletor
       
     end
     
+    # Builds the directory structure
     def build_skeleton(dirs,path=@path)
         
         dirs.each{
@@ -62,6 +73,7 @@ module Skeletor
       
     end
     
+    # Cleans the directory of all files and folders
     def self.clean(path=@path)
       
       puts 'Cleaning directory of files and folders'
@@ -79,6 +91,8 @@ module Skeletor
       
     end
     
+    # Checks if file is listed in the includes list and if so copies it from
+    # the given location. If not it creates a blank file.
     def write_file(file,path)
       
       #if a pre-existing file is specified in the includes list, copy that, if not write a blank file      
@@ -96,6 +110,10 @@ module Skeletor
       
     end
     
+    # Parses the task string and runs the task.
+    #
+    # Will check *Skeleton::Tasks* module first before running tasks
+    # from the `tasks.rb` file in the template directory.
     def execute_tasks(tasks,template_path)
       
       if File.exists?(File.expand_path(File.join(template_path,'tasks.rb')))

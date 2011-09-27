@@ -5,11 +5,17 @@ autoload :HTTPS, 'skeletor/protocols/https'
 
 module Skeletor
   
+  # The *Includes* class contains methods for dealing with
+  # loading and parsing required include files.
   class Includes
     
+    # Internal regular expression to match for includes that should be loaded from a remote destination
     PROTOCOL_PATTERN = /(?:([a-z][\w-]+):(?:\/{1,3}|[a-z0-9%]))/
+    # Specifies a list of supported protocols that *Skeletor* can load from.
     SUPPORTED_PROTOCOLS = ['http','https']
     
+    # Reads the required include from either the remote url or the local path and writes it to the 
+    # required location in the skeleton.
     def self.copy_include(include,target,path)
       
       #if include path includes a protocol. Load from that
