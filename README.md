@@ -161,10 +161,11 @@ put your templates in a `templates` folder under that.  This way you just have t
 
 ###Supplied Templates###
 
-Skeletor comes with 1 presupplied template but I'll be adding a few more as I have time.
+Skeletor comes with 2 presupplied template but I'll be adding a few more as I have time.
 
 * `js-lib` Creates a skeleton for a Javascript library.  This is based on the structure I use for most Javascript projects which is in turn based on the structures of libraries such
 as Prototype and Scriptaculous.
+* `rb-gem` Creates a skeleton for a Ruby Gem. This is based on the structure I used for this gem, which was generated from Jeweler and stripped back and simplified.
 
 Coming Soon
 -----------
