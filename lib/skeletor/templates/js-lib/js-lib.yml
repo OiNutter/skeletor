@@ -12,3 +12,5 @@ directory_structure:
   -
     - README.md
     - LICENSE
+includes:
+  LICENSE: includes/LICENSE
