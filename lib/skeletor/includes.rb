@@ -16,7 +16,7 @@ module Skeletor
     
     # Reads the required include from either the remote url or the local path and writes it to the 
     # required location in the skeleton.
-    def self.copy_include(include,target,path)
+    def self.copy_include(include,path)
       
       #if include path includes a protocol. Load from that
       matches = PROTOCOL_PATTERN.match(include).to_a
@@ -36,17 +36,17 @@ module Skeletor
             else
               raise TypeError, 'Unsupported protocol ' + protocol + ' for remote file. Only the following are supported: ' + SUPPORTED_PROTOCOLS.join(', ') 
            end
-           puts 'Copying remote file ' + include + ' to ' + target
+           puts 'Reading remote file ' + include
         else
           raise TypeError, 'Unsupported protocol for remote file. Only the following are supported: ' + SUPPORTED_PROTOCOLS.join(', ') 
         end
       else
-        puts 'Copying ' + include +  ' from template directory to ' + target
+        puts 'Reading ' + include +  ' from template directory'
         file = File.open(File.join(path,include))
-        content = file.gets 
+        content = file.gets nil
       end
       
-      File.open(target,'w'){|f| f.write(content)}
+      return content
       
     end
     

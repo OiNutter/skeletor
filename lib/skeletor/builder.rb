@@ -52,6 +52,8 @@ module Skeletor
             node.each_pair{
               |dir,content| 
           
+              dir = replace_tags(dir)
+          
               puts 'Creating directory ' + File.join(path,dir)
               Dir.mkdir(File.join(path,dir))
         
@@ -94,20 +96,21 @@ module Skeletor
     # Checks if file is listed in the includes list and if so copies it from
     # the given location. If not it creates a blank file.
     def write_file(file,path)
-      
       #if a pre-existing file is specified in the includes list, copy that, if not write a blank file      
       if @template.includes.has_key?(file)
         begin
-          Includes.copy_include(@template.includes[file],File.join(path,file),@template.path)
+          content = Includes.copy_include(@template.includes[file],@template.path)
+          file = replace_tags(file)
         rescue TypeError => e
           puts e.message
           exit
         end
       else
+       file = replace_tags(file) 
         puts 'Creating blank file: ' + File.join(path,file)
-        File.open(File.join(path,file),'w')
+        content=''
       end
-      
+      File.open(File.join(path,file),'w'){|f| f.write(replace_tags(content))}
     end
     
     # Parses the task string and runs the task.
@@ -125,9 +128,7 @@ module Skeletor
         
         puts 'Running Task: ' + task
         
-        task = task.gsub('<skeleton_path>',@path)
-        task = task.gsub('<skeleton_project>',@project)
-        task = task.gsub('<skelton_template>',@template_name)
+        task = replace_tags(task);
         
         options = task.split(', ')
         action = options.slice!(0)
@@ -140,6 +141,19 @@ module Skeletor
         
       }
                   
+    end
+    
+    # Parses supplied string and replaces any instances of following tags with the relavant 
+    # internal variable:
+    #
+    # <skeleton_path>,
+    # <skeleton_project>,
+    # <skeleton_template>
+    def replace_tags(str)
+     str = str.gsub('<skeleton_path>',@path)
+     str = str.gsub('<skeleton_project>',@project)
+     str = str.gsub('<skelton_template>',@template_name)
+     return str
     end
     
   end
