@@ -30,7 +30,7 @@ module Skeletor
     # Cleans out the specified directory
     def clean
       print 'Are you sure you want to clean this project directory? (Y|n): '
-      confirm = gets.chomp
+      confirm = $stdin.gets.chomp
       if confirm != 'Y' && confirm != 'n'
         puts 'Please enter Y or n'
       elsif confirm == 'Y'
