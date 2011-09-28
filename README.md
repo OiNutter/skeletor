@@ -169,11 +169,9 @@ as Prototype and Scriptaculous.
 Coming Soon
 -----------
 
-* Add rDoc comments so rubygems.org can generate proper documentation
 * Add Tests
 * More Templates
 * Option to turn off or lessen output
-* Include parsing
 * Option to deal with file/folder existing conflicts.
 
 Notes
