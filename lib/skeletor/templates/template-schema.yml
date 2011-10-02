@@ -1,6 +1,6 @@
 sections:
   - name: directory_structure
-    required: yes
+    required: no
     type: Array
     ok_empty: yes
     accepts:
