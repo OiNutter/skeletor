@@ -1,4 +1,5 @@
 require 'thor'
+require 'grayskull'
 
 module Skeletor
   
@@ -44,8 +45,19 @@ module Skeletor
     # Loads a template, creates a new *Validator* and validates the template    
     def validate(template)
       skeleton = Skeletons::Loader.loadTemplate(template)
-      validator = Skeletons::Validator.new(skeleton)
-      validator.validate()
+      validator = Grayskull::Validator.new(skeleton,Skeletons::Skeleton::SCHEMA_FILE)
+      results = validator.validate
+      
+       if !results['result']
+        puts 'Validation Failed with ' + @errors.count.to_s + ' errors';
+            puts ''
+            results["errors"].each{
+              |error|
+              puts error            
+            }
+      else
+        puts 'Validated Successfully!'
+      end
     end
     
   end

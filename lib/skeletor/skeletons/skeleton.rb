@@ -1,3 +1,5 @@
+require 'grayskull'
+
 module Skeletor
   
   module Skeletons
@@ -7,18 +9,29 @@ module Skeletor
     # default values for any missing sections.
     class Skeleton
       
+      # Defines the location to the required schema file for the templates
+      SCHEMA_FILE = File.join Skeletons::Loader::TEMPLATE_PATH,'template-schema.yml'
+      
       #Creates a new *Skeleton* instance from `template`
       def initialize(template)
         
         begin
           @template = Loader.loadTemplate(template)
-          validator = Validator.new(@template)
-          if validator.validate
+          validator = Grayskull::Validator.new(@template,SCHEMA_FILE)
+          results = validator.validate
+          if results["result"]
+            puts "Validated Successfully!"
             @directory_structure = @template["directory_structure"] || []
             @tasks = @template["tasks"] || {}
             @includes = @template["includes"] || {}
             @path = @template["path"]
           else
+            puts 'Validation Failed with ' + @errors.count.to_s + ' errors';
+            puts ''
+            results["errors"].each{
+              |error|
+              puts error            
+            }
             exit
           end
         rescue LoadError => e
