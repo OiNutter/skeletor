@@ -16,7 +16,7 @@ module Skeletor
       def initialize(template)
         
         begin
-          @template = Loader.loadTemplate(template)
+          @template = Loader.load_template(template)
           validator = Grayskull::Validator.new(@template,SCHEMA_FILE)
           results = validator.validate
           if results["result"]

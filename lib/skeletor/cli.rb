@@ -44,7 +44,7 @@ module Skeletor
     desc "validate TEMPLATE" ,"Checks TEMPLATE is a valid YAML file and matches the required schema."
     # Loads a template, creates a new *Validator* and validates the template    
     def validate(template)
-      skeleton = Skeletons::Loader.loadTemplate(template)
+      skeleton = Skeletons::Loader.load_template(template)
       validator = Grayskull::Validator.new(skeleton,Skeletons::Skeleton::SCHEMA_FILE)
       results = validator.validate
       

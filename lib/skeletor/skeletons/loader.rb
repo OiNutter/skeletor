@@ -1,4 +1,6 @@
 require 'yaml'
+require 'hike'
+require 'grayskull'
 
 module Skeletor
   
@@ -17,33 +19,58 @@ module Skeletor
       # Searches for the specified template and loads it into a variable
       #
       # Also adds the path where it was found to the returned Hash
-      def self.loadTemplate(template)
+      def self.load_template(template)
         
         puts 'Loading Template - ' + template
         
+        #if File.exists?(template) && !File.directory?(template)
+        #  skeleton = YAML.load_file(template)
+        #  path = File.dirname(template)
+        #elsif File.exists?(File.join(template,File.basename(template) + '.yml'))
+        #  skeleton = YAML.load_file(File.join(template,File.basename(template) + '.yml'))
+        #  path = template
+        #elsif File.exists?(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
+        #  skeleton = YAML.load_file(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
+        #  path = File.join(USER_TEMPLATE_PATH,template)
+        #elsif File.exists?(File.join(TEMPLATE_PATH,template,template+'.yml'))
+        #  skeleton = YAML.load_file(File.join(TEMPLATE_PATH,template,template+'.yml'))
+        #  path = File.join(TEMPLATE_PATH,template)
+        #else
+        #  raise LoadError, 'Error: Template File ' + File.basename(template) + ' Could Not Be Found'
+        #end
+        
         if File.exists?(template) && !File.directory?(template)
-          skeleton = YAML.load_file(template)
-          path = File.dirname(template)
-        elsif File.exists?(File.join(template,File.basename(template) + '.yml'))
-          skeleton = YAML.load_file(File.join(template,File.basename(template) + '.yml'))
-          path = template
-        elsif File.exists?(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
-          skeleton = YAML.load_file(File.join(USER_TEMPLATE_PATH,template,template+'.yml'))
-          path = File.join(USER_TEMPLATE_PATH,template)
-        elsif File.exists?(File.join(TEMPLATE_PATH,template,template+'.yml'))
-          skeleton = YAML.load_file(File.join(TEMPLATE_PATH,template,template+'.yml'))
-          path = File.join(TEMPLATE_PATH,template)
+          result = template
         else
-          raise LoadError, 'Error: Template File ' + File.basename(template) + ' Could Not Be Found'
+          trail = Hike::Trail.new "/"
+          trail.append_extensions ".yml", ".json" 
+          
+          if File.directory?(template)
+            trail.append_paths template
+            result = trail.find File.basename(template)
+          else
+            trail.append_paths USER_TEMPLATE_PATH, TEMPLATE_PATH
+            result = trail.find File.basename(template) + "/" + File.basename(template)
+          end
+                
         end
         
-        puts 'Template ' + File.basename(template) + '.yml loaded from ' + path
-        if skeleton
-          skeleton['path'] = path
-        else
-          raise LoadError, 'Error: Template could not be parsed as vald YAML'
+        if result
+          begin
+            file = File.basename(result)
+            path = File.dirname(result)
+            skeleton = Grayskull::DataFile.load(result)
+            skeleton['file'] = file
+            skeleton['path'] = path
+            puts 'Template ' + file + ' loaded from ' + path
+         rescue Exception => e
+          puts e.message
+          exit
+         end
         end
         
+        puts 'Template ' + file + ' loaded from ' + path
+                
         return skeleton
         
       end

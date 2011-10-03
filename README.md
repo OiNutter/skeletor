@@ -1,7 +1,7 @@
 Skeletor
 ========
 
-Skeletor is a Ruby Library for setting up quick project skeletons based on code templates. It uses YAML templates to specify a directory structure of files and 
+Skeletor is a Ruby Library for setting up quick project skeletons based on code templates. It can use YAML or JSON templates to specify a directory structure of files and 
 folders, a list of includes to pull and any tasks to run. It also contains built in templates
 
 Installation
@@ -35,7 +35,7 @@ Cleans the entire project directory.  A helper method to let you start again. Us
 
 	skeletor validate TEMPLATE
 	
-Validates that TEMPLATE is a valid YAML file and that it matches the expected schema (see below).
+Validates that TEMPLATE is a valid YAML or JSON file and that it matches the expected schema (see below).
 
 ###Help###
 
@@ -48,10 +48,10 @@ Templates
 
 ###Creating Templates###
 
-A Skeletor template is a YAML file in a folder with the same name as the file so for instance, a basic template on file would look like this:
+A Skeletor template is a YAML or JSON file in a folder with the same name as the file so for instance, a basic template on file would look like this:
 
 	sample-template/
-		- sample-template.yml
+		- sample-template.(yml|json)
 	
 The yaml structure looks like this:
 
@@ -70,6 +70,34 @@ The yaml structure looks like this:
 	tasks:
 		- TASKANDARGUMENTS
 		- ANOTHERTASKANDARGUMENTS
+		
+The JSON structure looks like this:
+
+	{	
+		"directory_structure":[
+			{
+				"dirname':[
+					{
+						"subdir':[]
+					},
+					[
+						"NESTEDFILE"
+					]
+				]
+			},
+			[
+				"FILENAME"
+			]
+		],
+		"includes":{
+			"FILENAME": "path/to/file"
+			"NESTEDFILE": "remoteurloffile"
+		},
+		"tasks":[
+			"TASKANDARGUMENTS"
+			"ANOTHERTASKANDARGUMENTS"
+		]
+	}
 		
 It should match the following schema:
 
