@@ -1,10 +1,9 @@
 require_relative '../lib/skeletor/skeletons/loader'
-require_relative '../lib/skeletor/skeletons/validator'
 require_relative '../lib/skeletor/skeletons/skeleton'
 
 require_relative '../lib/skeletor/builder'
 
-path = File.expand_path(File.join(File.dirname(__FILE__), "test-template"))
+path = File.expand_path(File.join(File.dirname(__FILE__), "test-json"))
 
 skeleton = Skeletor::Skeletons::Skeleton.new(path)
 #skeleton = YAML.load_file(File.join(Skeletor::Templates::Loader::TEMPLATE_PATH,'js-lib/js-lib.yml'))
@@ -15,6 +14,6 @@ skeleton = Skeletor::Skeletons::Skeleton.new(path)
 #  
 #  puts dir
 #}
-##skeleton = Skeletor::Skeletons::Loader.loadTemplate(path)
+##skeleton = Skeletor::Skeletons::Loader.load_template(path)
 #validator = Skeletor::Skeletons::Validator.new(skeleton)
 #validator.validate()
