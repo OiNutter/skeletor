@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Skeletor by OiNutter</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/OiNutter/skeletor">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/OiNutter/skeletor/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/OiNutter/skeletor/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Skeletor</h1>
+          <p>RubyGem for creating project templates</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/OiNutter">OiNutter</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Skeletor</h1>
+
+<p>Skeletor is a Ruby Library for setting up quick project skeletons based on code templates. It can use YAML or JSON templates to specify a directory structure of files and 
+folders, a list of includes to pull and any tasks to run. It also contains built in templates</p>
+
+<h2>Installation</h2>
+
+<div class="highlight">
+<pre>gem install skeletor
+</pre>
+</div>
+
+
+<h2>Usage</h2>
+
+<p>Skeletor has 3 actions it can perform for you.  You can also call <code>skeletor -h|--help</code> to list the available functions.</p>
+
+<h3>Build</h3>
+
+<div class="highlight">
+<pre>skeletor build TEMPLATE <span class="o">[</span>options<span class="o">]</span>
+</pre>
+</div>
+
+
+<p>This will build the project skeleton for you based on TEMPLATE.  It takes the following options</p>
+
+<ul>
+<li>
+<code>-d --directory DIRECTORY</code> Specifies the directory to build the skeleton in. If it doesn't exist Skeletor will create it for you. Defaults to the current directory.</li>
+<li>
+<code>-p --project PROJECT</code> Specifies the name of the project to use in output.  I also intend to add in the functionality to add include parsing so you can dynamically insert the project name.  Defaults to the directory name.</li>
+</ul><h3>Clean</h3>
+
+<div class="highlight">
+<pre>skeletor clean <span class="o">[</span>options<span class="o">]</span>
+</pre>
+</div>
+
+
+<p>Cleans the entire project directory.  A helper method to let you start again. Useful when creating you templates. Takes the following options</p>
+
+<ul>
+<li>
+<code>-d --directory</code> Specifies the directory to clean.  Defaults to the current directory.</li>
+</ul><h3>Validate</h3>
+
+<div class="highlight">
+<pre>skeletor validate TEMPLATE
+</pre>
+</div>
+
+
+<p>Validates that TEMPLATE is a valid YAML or JSON file and that it matches the expected schema (see below).</p>
+
+<h3>Help</h3>
+
+<div class="highlight">
+<pre>skeletor -h|--help TASK
+</pre>
+</div>
+
+
+<p>Shows help information for TASK.</p>
+
+<h2>Templates</h2>
+
+<h3>Creating Templates</h3>
+
+<p>A Skeletor template is a YAML or JSON file in a folder with the same name as the file so for instance, a basic template on file would look like this:</p>
+
+<div class="highlight">
+<pre>sample-template/
+    - sample-template.<span class="o">(</span>yml|json<span class="o">)</span>
+</pre>
+</div>
+
+
+<p>The yaml structure looks like this:</p>
+
+<div class="highlight">
+<pre><span class="l-Scalar-Plain">directory_structure</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span>
+        <span class="l-Scalar-Plain">dirname</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span>
+                <span class="l-Scalar-Plain">subdir</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span>
+                <span class="l-Scalar-Plain">NESTEDFILE</span>
+    <span class="p-Indicator">-</span>
+        <span class="l-Scalar-Plain">FILENAME</span>
+<span class="l-Scalar-Plain">includes</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">FILENAME</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">path/to/file</span>
+    <span class="l-Scalar-Plain">NESTEDFILE</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">remoteurloffile</span>
+<span class="l-Scalar-Plain">tasks</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">TASKANDARGUMENTS</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ANOTHERTASKANDARGUMENTS</span>
+</pre>
+</div>
+
+
+<p>The JSON structure looks like this:</p>
+
+<div class="highlight">
+<pre><span class="p">{</span>   
+    <span class="nt">"directory_structure"</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="nt">"dirname"</span><span class="p">:[</span>
+                <span class="p">{</span>
+                    <span class="nt">"subdir"</span><span class="p">:[]</span>
+                <span class="p">},</span>
+                <span class="p">[</span>
+                    <span class="s2">"NESTEDFILE"</span>
+                <span class="p">]</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">[</span>
+            <span class="s2">"FILENAME"</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="nt">"includes"</span><span class="p">:{</span>
+        <span class="nt">"FILENAME"</span><span class="p">:</span> <span class="s2">"path/to/file"</span><span class="p">,</span>
+        <span class="nt">"NESTEDFILE"</span><span class="p">:</span> <span class="s2">"remoteurloffile"</span>
+    <span class="p">},</span>
+    <span class="nt">"tasks"</span><span class="p">:[</span>
+        <span class="s2">"TASKANDARGUMENTS"</span><span class="p">,</span>
+        <span class="s2">"ANOTHERTASKANDARGUMENTS"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>It should match the following schema:</p>
+
+<div class="highlight">
+<pre><span class="l-Scalar-Plain">sections</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">directory_structure</span>
+    <span class="l-Scalar-Plain">required</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+    <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Array</span>
+    <span class="l-Scalar-Plain">ok_empty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+    <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">directory_list</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">file_list</span>
+<span class="-Error"> </span><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">tasks</span>
+   <span class="l-Scalar-Plain">required</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">no</span>
+   <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Array</span>
+   <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span> 
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">String</span>
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">includes</span>
+   <span class="l-Scalar-Plain">required</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">no</span>
+   <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Hash</span>
+   <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">String</span>
+<span class="l-Scalar-Plain">types</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">directory_list</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Hash</span>
+    <span class="l-Scalar-Plain">ok_empty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">no</span>
+    <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">directory</span>
+  <span class="l-Scalar-Plain">file_list</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Array</span>
+    <span class="l-Scalar-Plain">ok_empty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">no</span>
+    <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">file</span>
+  <span class="l-Scalar-Plain">directory</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Array</span>
+    <span class="l-Scalar-Plain">ok_empty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+    <span class="l-Scalar-Plain">accepts</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">empty</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">directory_list</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">file_list</span>
+  <span class="l-Scalar-Plain">file</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">String</span>
+</pre>
+</div>
+
+
+<p>It contains 3 optional sections:</p>
+
+<h4>directory_structure</h4>
+
+<p>This is the main part of the template, but you can still leave it out if you just want skeletor to run tasks for you. In YAML parlance the directory_structure is a sequence 
+that contains either sequences or mappings. What this basically means is that it can contain a list of directories and a list of files.  The directory lists are mappings as
+well, with the directory name being the mapping name and the contents being another sequence defining a list of directories and/or a list of files.  The file list is a sequence
+of strings that define the file names. If the filenames are not listed in the includes section blank files will be created, otherwise the include will be copied from the given location.
+To specify an empty directory just create an empty mapping but remember to still put a space after the colon as YAML seems to be funny about parsing without that. You can use the built in
+validate action to check your template and the build action will also validate the template on load.</p>
+
+<h4>includes</h4>
+
+<p>This is a mapping of filenames to include locations.  The include locations can be anywhere on disk or a remote location accessible through either HTTP or HTTPS. Generally I would recommend
+storing these in subfolders in your template directory.</p>
+
+<h4>tasks</h4>
+
+<p>This denotes a list of tasks to run once the skeleton is set up. They are a string in the following format:</p>
+
+<div class="highlight">
+<pre><span class="l-Scalar-Plain">task[, argument...]</span>
+</pre>
+</div>
+
+
+<p>So for example to call the built in git_init task the tasks section would look like this</p>
+
+<div class="highlight">
+<pre><span class="l-Scalar-Plain">tasks</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git_init, &lt;skeleton_path&gt;</span>
+</pre>
+</div>
+
+
+<p>You can pass any arguments you want but there are 3 placeholders that can be used to populate with data from the skeleton:</p>
+
+<ul>
+<li>
+<code>&lt;skeleton_path&gt;</code> passes the location of the created skeleton to the task</li>
+<li>
+<code>&lt;skeleton_project&gt;</code> passes the project name to the task</li>
+<li>
+<code>&lt;skeleton_template&gt;</code> passes the name of the template used to the task</li>
+</ul><p>There are also 2 built in tasks:</p>
+
+<ul>
+<li>
+<code>git_init</code> Initializes a git repository in the newly created project</li>
+<li>
+<code>capify</code> Generates capistrano deployment files</li>
+</ul><p>The parser will look for built in tasks with the names supplied first so if you want to provide your own versions you will need to change the names. To supply your own tasks
+put them in a <code>tasks.rb</code> file in the root of your template directory.</p>
+
+<h3>Storing Templates</h3>
+
+<p>You can store the templates anywhere you like and just pass the path to them to the function but for ease of use you can create a <code>.skeletor</code> folder in your home directory and
+put your templates in a <code>templates</code> folder under that.  This way you just have to pass the template name and Skeletor will look here for the template.</p>
+
+<h3>Supplied Templates</h3>
+
+<p>Skeletor comes with 2 presupplied template but I'll be adding a few more as I have time.</p>
+
+<ul>
+<li>
+<code>js-lib</code> Creates a skeleton for a Javascript library.  This is based on the structure I use for most Javascript projects which is in turn based on the structures of libraries such
+as Prototype and Scriptaculous.</li>
+<li>
+<code>rb-gem</code> Creates a skeleton for a Ruby Gem. This is based on the structure I used for this gem, which was generated from Jeweler and stripped back and simplified.</li>
+</ul><h2>Coming Soon</h2>
+
+<ul>
+<li>Add Tests</li>
+<li>More Templates</li>
+<li>Option to turn off or lessen output</li>
+<li>Option to deal with file/folder existing conflicts.</li>
+</ul><h2>Notes</h2>
+
+<p>This is my first gem and my first major work with ruby, so I'd be really grateful for any constructive feedback, input, suggestions etc. Also if anybody wants to
+contribute feel free, just check out the guidelines below (pretty standard stuff but it kinda makes sense).</p>
+
+<h2>Contributing to Skeletor</h2>
+
+<ul>
+<li>Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet</li>
+<li>Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it</li>
+<li>Fork the project</li>
+<li>Start a feature/bugfix branch</li>
+<li>Commit and push until you are happy with your contribution</li>
+<li>Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.</li>
+<li>Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.</li>
+</ul><h2>Copyright</h2>
+
+<p>Copyright (c) 2011 Will McKenzie</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
