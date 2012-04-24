@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   
   s.add_dependency "thor", "~> 0.14.6"
   s.add_dependency "hike", "~> 1.2.1"
-  s.add_dependency "grayskull", "~> 0.1.7"
+  s.add_dependency "grayskull", "~> 0.1.9"
 end
 
