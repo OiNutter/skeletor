@@ -1,4 +1,4 @@
 module Skeletor
   # Current version number
-  VERSION="0.9.0"
+  VERSION="0.9.1"
 end
