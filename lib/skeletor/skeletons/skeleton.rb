@@ -26,7 +26,7 @@ module Skeletor
             @includes = @template["includes"] || {}
             @path = @template["path"]
           else
-            puts 'Validation Failed with ' + @errors.count.to_s + ' errors';
+            puts 'Validation Failed with ' + results["errors"].count.to_s + ' errors';
             puts ''
             results["errors"].each{
               |error|

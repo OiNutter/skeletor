@@ -47,9 +47,9 @@ module Skeletor
       skeleton = Skeletons::Loader.load_template(template)
       validator = Grayskull::Validator.new(skeleton,Skeletons::Skeleton::SCHEMA_FILE)
       results = validator.validate
-      
-       if !results['result']
-        puts 'Validation Failed with ' + @errors.count.to_s + ' errors';
+
+      if !results['result']
+        puts 'Validation Failed with ' + results['errors'].count.to_s + ' errors';
             puts ''
             results["errors"].each{
               |error|
